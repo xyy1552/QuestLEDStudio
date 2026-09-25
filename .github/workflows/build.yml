@@ -18,19 +18,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Specific Gradle Version
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
-        gradle-version: '8.5'
+        gradle-version: '8.4'
         cache-disabled: true
 
-    - name: Accept Android SDK Licenses
+    - name: Accept SDK Licenses
       run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
     - name: Build Debug APK
-      run: gradle assembleDebug --stacktrace
+      run: gradle :app:assembleDebug --stacktrace
 
-    - name: Upload APK Artifact
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: QuestLEDStudio-APK
