@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.questledstudio'
+    namespace 'com.example.questled' // <-- Updated to match MainActivity package
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.questledstudio"
+        applicationId "com.example.questled"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -39,4 +39,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 }
