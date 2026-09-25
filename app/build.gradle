@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.questled' // <-- Updated to match MainActivity package
+    namespace 'com.example.questled'
     compileSdk 34
 
     defaultConfig {
