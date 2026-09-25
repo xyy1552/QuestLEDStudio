@@ -4,10 +4,21 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.SeekBar
+import android.widget.Switch
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.switchmaterial.SwitchMaterial
-import kotlinx.coroutines.*
+import com.example.questled.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.OutputStream
 import java.net.Socket
 import kotlin.random.Random
@@ -140,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         seekBlue.setOnSeekBarChangeListener(rgbListener)
 
         // 5. Preset Color Buttons Setup
-        val presetButtons = mapOf(
+        val presetButtons: Map<Int, IntArray> = mapOf(
             R.id.btnColorRed to intArrayOf(255, 0, 0),
             R.id.btnColorGreen to intArrayOf(0, 255, 0),
             R.id.btnColorBlue to intArrayOf(0, 0, 255),
@@ -151,7 +162,7 @@ class MainActivity : AppCompatActivity() {
             R.id.btnColorWhite to intArrayOf(255, 255, 255)
         )
 
-        presetButtons.forEach { (btnId, rgb) ->
+        for ((btnId, rgb) in presetButtons) {
             findViewById<Button>(btnId).setOnClickListener {
                 stopEffect()
                 currentR = rgb[0]
@@ -321,9 +332,9 @@ class MainActivity : AppCompatActivity() {
         tvRgbCode.setTextColor(if (r + g + b < 100) Color.WHITE else colorInt)
     }
 
-    private fun startEffect(block: suspend () -> Unit) {
+    private fun startEffect(block: suspend CoroutineScope.() -> Unit) {
         stopEffect()
-        effectJob = CoroutineScope(Dispatchers.IO).launch { block() }
+        effectJob = CoroutineScope(Dispatchers.IO).launch(block = block)
     }
 
     private fun stopEffect() {
